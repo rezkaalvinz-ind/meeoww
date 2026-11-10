@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Meeoww - Music Player</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1c1e34">
+</head>
+<body>
+  <!-- Container Desktop Frame (Phone Mockup) -->
+  <div class="device-container" id="deviceContainer">
+    <aside class="desktop-screen-switcher" aria-label="Device view toggle">
+      <div class="switcher-brand">
+        <span class="switcher-dot"></span>
+        <span>Mode Tampilan:</span>
+      </div>
+      <div class="switcher-pills">
+        <button type="button" class="switch-pill active" id="btnModeMobile">📱 Ponsel (390px)</button>
+        <button type="button" class="switch-pill" id="btnModeTablet">💻 Tablet / Desktop (820px)</button>
+      </div>
+    </aside>
+
+    <div class="phone-frame">
+      <div class="phone-speaker"></div>
+      
+      <main class="app-shell">
+        <!-- 1. SPLASH / WELCOME VIEW -->
+        <section class="auth-view active splash-view" id="welcomeView">
+          <div class="auth-logo">
+            <img src="assets/meeoww-logo.png" alt="Meeoww Logo" class="logo-image">
+            <div class="splash-loader">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. LOGIN VIEW -->
+        <section class="auth-view" id="loginView">
+          <div class="auth-content">
+            <div class="auth-header">
+              <span class="auth-pill">Selamat Datang</span>
+              <h1>Log In</h1>
+              <p class="auth-sub">Masuk untuk menikmati musik favoritmu</p>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+              <label class="auth-input">
+                <span class="input-icon">User</span>
+                <input name="username" placeholder="Username atau Email" autocomplete="username" required>
+              </label>
+
+              <label class="auth-input">
+                <span class="input-icon">Lock</span>
+                <input name="password" type="password" placeholder="Password" autocomplete="current-password" required>
+                <button type="button" class="toggle-password" aria-label="Toggle password visibility">Show</button>
+              </label>
+
+              <div class="form-options">
+                <label class="checkbox-label">
+                  <input type="checkbox" name="remember" checked>
+                  <span class="custom-checkbox"></span>
+                  <span>Ingat saya</span>
+                </label>
+                <button type="button" class="text-link forgot-btn">Lupa Password?</button>
+              </div>
+
+              <button class="primary-button" type="submit">
+                <span>Log In</span>
+              </button>
+            </form>
+
+            <div class="social-login">
+              <div class="divider"><span>atau masuk dengan</span></div>
+              <div class="social-buttons">
+                <button type="button" class="social-btn google-btn" aria-label="Sign in with Google">
+                  <span class="social-icon">Google</span>
+                </button>
+                <button type="button" class="social-btn apple-btn" aria-label="Sign in with Apple">
+                  <span class="social-icon">Apple</span>
+                </button>
+                <button type="button" class="social-btn facebook-btn" aria-label="Sign in with Facebook">
+                  <span class="social-icon">Facebook</span>
+                </button>
+                <button type="button" class="social-btn twitter-btn" aria-label="Sign in with Twitter">
+                  <span class="social-icon">Twitter</span>
+                </button>
+              </div>
+            </div>
+
+            <p class="auth-switch">
+              Belum punya akun? <button class="text-link" data-view="signupView">Daftar sekarang</button>
+            </p>
+          </div>
+        </section>
+
+        <!-- 3. SIGN UP VIEW -->
+        <section class="auth-view" id="signupView">
+          <div class="auth-content signup-content">
+            <div class="auth-header">
+              <span class="auth-pill">Akun Baru</span>
+              <h1>Sign Up</h1>
+              <p class="auth-sub">Buat akun untuk mendengarkan lagu tanpa batas</p>
+            </div>
+
+            <form id="signupForm" class="auth-form">
+              <div class="name-fields">
+                <label class="auth-input">
+                  <input name="firstName" placeholder="Nama Depan" required>
+                </label>
+                <label class="auth-input">
+                  <input name="lastName" placeholder="Nama Belakang" required>
+                </label>
+              </div>
+
+              <label class="auth-input">
+                <span class="input-icon">User</span>
+                <input name="email" type="email" placeholder="Alamat Email" autocomplete="email" required>
+              </label>
+
+              <label class="auth-input">
+                <span class="input-icon">Lock</span>
+                <input name="password" type="password" placeholder="Password (min. 6 karakter)" autocomplete="new-password" required>
+              </label>
+
+              <label class="auth-input">
+                <span class="input-icon">Lock</span>
+                <input name="confirmPassword" type="password" placeholder="Konfirmasi Password" autocomplete="new-password" required>
+              </label>
+
+              <label class="checkbox-label privacy-check">
+                <input type="checkbox" required checked>
+                <span class="custom-checkbox"></span>
+                <span>Saya menyetujui <em>Syarat &amp; Kebijakan Privasi</em></span>
+              </label>
+
+              <button class="primary-button" type="submit">
+                <span>Daftar Akun</span>
+              </button>
+            </form>
+
+            <p class="auth-switch signup-switch">
+              Sudah punya akun? <button class="text-link" data-view="loginView">Masuk di sini</button>
+            </p>
+          </div>
+        </section>
+
+        <!-- 4. HOME VIEW -->
+        <section class="view" id="homeView">
+          <div class="brand-row">
+            <div class="brand-left">
+              <img class="brand-logo-image" src="assets/meeoww-mark.png" alt="Meeoww Logo">
+              <span class="brand-name">Meeoww</span>
+            </div>
+            <button class="icon-button notification-btn" aria-label="Notifications">
+              <span class="icon-bell">notifications</span>
+              <span class="badge-dot"></span>
+            </button>
+          </div>
+
+          <button class="search-pill" data-view="searchView">
+            <span class="search-icon">Search</span>
+            <span class="search-placeholder">Cari lagu, artis, atau album...</span>
+          </button>
+
+          <div class="section-heading">
+            <h2>Pilihan Untukmu</h2>
+            <span class="section-tag">Featured</span>
+          </div>
+
+          <div class="carousel" data-carousel>
+            <div class="carousel-track">
+              <div class="carousel-slide">
+                <div class="hero-card" data-track-title="33x" onclick="playCarouselTrack('33x', event)">
+                  <div class="hero-art art-perunggu"></div>
+                  <div class="hero-gradient"></div>
+                  <div class="hero-badge">Hit Track</div>
+                  <div class="hero-info">
+                    <strong>33x</strong>
+                    <span>Perunggu</span>
+                  </div>
+                  <button class="hero-play-btn" aria-label="Play 33x">Play</button>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="hero-card" data-track-title="About You" onclick="playCarouselTrack('About You', event)">
+                  <div class="hero-art art-about"></div>
+                  <div class="hero-gradient"></div>
+                  <div class="hero-badge">Trending #1</div>
+                  <div class="hero-info">
+                    <strong>About You</strong>
+                    <span>The 1975</span>
+                  </div>
+                  <button class="hero-play-btn" aria-label="Play About You">Play</button>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="hero-card" data-track-title="Best Friend" onclick="playCarouselTrack('Best Friend', event)">
+                  <div class="hero-art art-weekend"></div>
+                  <div class="hero-gradient"></div>
+                  <div class="hero-badge">Pop Chill</div>
+                  <div class="hero-info">
+                    <strong>Best Friend</strong>
+                    <span>Rex Orange County</span>
+                  </div>
+                  <button class="hero-play-btn" aria-label="Play Best Friend">Play</button>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="carousel-control carousel-prev" data-carousel-prev aria-label="Previous slide">‹</button>
+            <button type="button" class="carousel-control carousel-next" data-carousel-next aria-label="Next slide">›</button>
+
+            <div class="carousel-dots" aria-label="Indicator slide">
+              <button type="button" class="carousel-dot active" aria-label="Slide 1"></button>
+              <button type="button" class="carousel-dot" aria-label="Slide 2"></button>
+              <button type="button" class="carousel-dot" aria-label="Slide 3"></button>
+            </div>
+          </div>
+
+          <div class="section-heading">
+            <h2>Lagu Populer</h2>
+            <button class="section-link" data-view="searchView">Lihat Semua</button>
+          </div>
+
+          <div class="song-list" id="trendingList"></div>
+        </section>
+
+        <!-- 5. SEARCH VIEW -->
+        <section class="view" id="searchView">
+          <div class="topbar">
+            <button class="back-button" data-view="homeView" aria-label="Kembali ke Beranda">Back</button>
+            <span class="view-title">Eksplorasi Lagu</span>
+          </div>
+
+          <label class="search-pill search-input">
+            <span class="search-icon">Search</span>
+            <input id="searchInput" placeholder="Ketik judul lagu atau nama musisi..." autocomplete="off">
+            <button type="button" class="clear-search" aria-label="Clear search">Close</button>
+          </label>
+
+          <div class="search-suggestions" id="searchSuggestions"></div>
+
+          <div class="recent-searches" id="recentSearchesWrap">
+            <div class="recent-header">
+              <span>Pencarian Terakhir</span>
+              <button type="button" class="recent-clear-btn" id="clearRecentBtn">Hapus</button>
+            </div>
+            <div class="recent-chips" id="recentChips"></div>
+          </div>
+
+          <div class="genre-section">
+            <h2 class="sub-heading">Kategori Genre Populer</h2>
+            <div class="genre-grid">
+              <div class="genre genre-pop">
+                <span>POP!</span>
+                <small>Top Hits</small>
+              </div>
+              <div class="genre genre-rock">
+                <span>ROCK</span>
+                <small>Energetic</small>
+              </div>
+              <div class="genre genre-rnb">
+                <span>R&amp;B</span>
+                <small>Soul &amp; Groove</small>
+              </div>
+              <div class="genre genre-jazz">
+                <span>JAZZ</span>
+                <small>Classic Chill</small>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. RESULTS VIEW -->
+        <section class="view results-page" id="resultsView">
+          <div class="topbar">
+            <button class="back-button" data-view="searchView" aria-label="Kembali ke Pencarian">Back</button>
+            <label class="search-pill search-input result-search">
+              <span class="search-icon">Search</span>
+              <input id="resultInput" value="About You" aria-label="Search query">
+              <button type="button" class="clear-search" aria-label="Clear search">Close</button>
+            </label>
+          </div>
+
+          <h2 class="sub-heading">Hasil Terbaik</h2>
+          <div class="result-list" id="resultList"></div>
+        </section>
+
+        <!-- 7. LIBRARY VIEW -->
+        <section class="view" id="libraryView">
+          <div class="topbar">
+            <span class="view-title page-title">Koleksi Musik</span>
+            <button class="icon-button" id="addPlaylistBtn" aria-label="Tambah playlist baru">More</button>
+          </div>
+
+          <div class="library-chips">
+            <button class="chip active">Semua</button>
+            <button class="chip">Playlist</button>
+            <button class="chip">Lagu Disukai</button>
+            <button class="chip">Artis</button>
+          </div>
+
+          <div class="liked-songs-card" onclick="selectAudioTrack('33x', true); show('playerView')">
+            <div class="liked-heart-art">Heart</div>
+            <div class="liked-info">
+              <strong>Lagu Yang Disukai</strong>
+              <small>5 Lagu Tersimpan</small>
+            </div>
+            <button class="liked-play-btn" aria-label="Putar lagu disukai">Play</button>
+          </div>
+
+          <h2 class="sub-heading">Playlist Buatanmu</h2>
+          <div class="playlist-grid">
+            <div class="playlist-card" onclick="selectAudioTrack('About You', true); show('playerView')">
+              <div class="playlist-art art-about"></div>
+              <strong>Daily Mix 01</strong>
+              <small>The 1975, Perunggu, Rex</small>
+            </div>
+            <div class="playlist-card" onclick="selectAudioTrack('Best Friend', true); show('playerView')">
+              <div class="playlist-art art-weekend"></div>
+              <strong>Indie Vibes</strong>
+              <small>Rex Orange County &amp; Friends</small>
+            </div>
+            <div class="playlist-card" onclick="selectAudioTrack('Love Me Not', true); show('playerView')">
+              <div class="playlist-art art-perunggu"></div>
+              <strong>Late Night Chill</strong>
+              <small>Ravyn Lenae, Alex Crichton</small>
+            </div>
+            <div class="playlist-card" onclick="selectAudioTrack('What If I Call', true); show('playerView')">
+              <div class="playlist-art art-about"></div>
+              <strong>Cozy Acoustic</strong>
+              <small>Alex Crichton &amp; more</small>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. PROFILE VIEW -->
+        <section class="view" id="profileView">
+          <div class="topbar">
+            <span class="view-title page-title">Profil Pengguna</span>
+            <button class="icon-button" id="profileSettingsBtn" aria-label="Settings">More</button>
+          </div>
+
+          <div class="profile-header-card">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar">Cat</div>
+              <span class="profile-badge">PRO</span>
+            </div>
+            <h1 class="profile-name" id="profileName">Meeoww Demo</h1>
+            <p class="profile-email" id="profileEmail">demo@meeoww.local</p>
+          </div>
+
+          <div class="profile-stats">
+            <div class="stat-item">
+              <strong>4</strong>
+              <small>Playlist</small>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <strong>5</strong>
+              <small>Lagu</small>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <strong>128</strong>
+              <small>Menit Dengar</small>
+            </div>
+          </div>
+
+          <h2 class="sub-heading">Pengaturan Akun</h2>
+          <div class="profile-menu">
+            <div class="menu-item" onclick="toast('Kualitas audio: Sangat Tinggi (320kbps)')">
+              <span class="menu-icon">Volume</span>
+              <div class="menu-text">
+                <strong>Kualitas Audio</strong>
+                <small>High Quality (320 kbps)</small>
+              </div>
+              <span class="menu-arrow">›</span>
+            </div>
+
+            <div class="menu-item" onclick="toast('Mode Hemat Kuota: Nonaktif')">
+              <span class="menu-icon">Offline</span>
+              <div class="menu-text">
+                <strong>Penyimpanan Offline</strong>
+                <small>5 lagu terunduh di perangkat</small>
+              </div>
+              <span class="menu-arrow">›</span>
+            </div>
+
+            <div class="menu-item" onclick="toast('Tema gelap sudah aktif otomatis')">
+              <span class="menu-icon">Theme</span>
+              <div class="menu-text">
+                <strong>Tampilan &amp; Tema</strong>
+                <small>Dark Midnight (Bawaan)</small>
+              </div>
+              <span class="menu-arrow">›</span>
+            </div>
+          </div>
+
+          <button type="button" class="logout-btn" id="logoutButton">
+            <span>Keluar dari Akun</span>
+          </button>
+        </section>
+
+        <!-- 9. NOW PLAYING VIEW (PLAYER VIEW) -->
+        <section class="view player-view" id="playerView">
+          <div class="topbar player-topbar">
+            <button class="back-button" data-view="homeView" aria-label="Tutup Player">Back</button>
+            <div class="player-top-info">
+              <span class="top-tag">SEDANG DIPUTAR</span>
+              <span class="view-title" id="playerTopAlbum">Being Funny in a Foreign Language</span>
+            </div>
+            <button class="icon-button" id="playerMoreOptions" aria-label="Opsi lainnya">More</button>
+          </div>
+
+          <div class="player-art-wrap">
+            <div class="player-art art-about" id="playerArt"></div>
+          </div>
+
+          <div class="now-playing-info">
+            <div class="track-details">
+              <h1 id="playerTitle">About You</h1>
+              <p id="playerArtist">The 1975</p>
+            </div>
+            <button type="button" class="like-button" id="playerLikeBtn" aria-label="Suka lagu ini">
+              <span class="like-icon">Heart</span>
+            </button>
+          </div>
+
+          <div class="progress-container">
+            <input class="progress-range" id="progressBar" type="range" min="0" max="100" value="0" step="0.1" aria-label="Track progress">
+            <div class="time-row">
+              <span id="currentTime">0:00</span>
+              <span id="duration">4:22</span>
+            </div>
+          </div>
+
+          <audio id="audioPlayer" preload="metadata"></audio>
+
+          <div class="player-controls">
+            <button class="ctrl-btn" id="ctrlShuffle" aria-label="Shuffle">Shuffle</button>
+            <button class="ctrl-btn" id="ctrlPrev" aria-label="Lagu Sebelumnya">Prev</button>
+            <button class="ctrl-btn play-main-btn pause-button" id="pauseButton" aria-label="Putar atau Jeda">Pause</button>
+            <button class="ctrl-btn" id="ctrlNext" aria-label="Lagu Berikutnya">Next</button>
+            <button class="ctrl-btn" id="ctrlRepeat" aria-label="Ulangi Lagu">Repeat</button>
+          </div>
+
+          <div class="volume-container">
+            <button type="button" class="volume-btn" id="volumeMuteBtn" aria-label="Mute/Unmute">
+              <span class="volume-icon">Volume</span>
+            </button>
+            <input class="volume-range" id="volumeBar" type="range" min="0" max="1" step="0.05" value="1" aria-label="Pengaturan volume suara">
+          </div>
+
+          <div class="player-footer-pill">
+            <button type="button" class="lyrics-peek-pill" data-view="lyricsView">
+              <span class="lyrics-icon">Lyrics</span>
+              <span>Buka Lirik Lagu</span>
+              <span class="lyrics-arrow">↑</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- 10. LYRICS VIEW -->
+        <section class="view lyrics-view" id="lyricsView">
+          <div class="topbar">
+            <button class="back-button" data-view="playerView" aria-label="Kembali ke Player">Back</button>
+            <span class="view-title">Lirik Lagu</span>
+            <button class="icon-button" aria-label="More options">More</button>
+          </div>
+
+          <div class="lyrics-card">
+            <div class="lyrics-track-badge">
+              <div class="lyrics-mini-cover" id="lyricsCover"></div>
+              <div class="lyrics-meta">
+                <strong id="lyricsTrackTitle">About You</strong>
+                <small id="lyricsTrackArtist">The 1975</small>
+              </div>
+            </div>
+
+            <div class="lyrics-scroll-body" id="lyricsBody">
+              <!-- Rendered via JS sesuai lagu aktif -->
+            </div>
+          </div>
+
+          <div class="mini-player" data-view="playerView">
+            <div class="mini-art art-about" id="miniPlayerArt"></div>
+            <div class="mini-info">
+              <strong id="miniPlayerTitle">About You</strong>
+              <small id="miniPlayerArtist">The 1975</small>
+            </div>
+            <button type="button" class="mini-btn" id="miniPauseBtn" aria-label="Play/Pause">Pause</button>
+            <button type="button" class="mini-btn" id="miniNextBtn" aria-label="Next track">Next</button>
+          </div>
+        </section>
+      </main>
+
+      <!-- BOTTOM NAVIGATION BAR (FIXED AT THE BOTTOM OF THE PHONE FRAME) -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-view="homeView">
+          <span class="nav-icon">Home</span>
+          <small>Beranda</small>
+        </button>
+        <button class="nav-item" data-view="searchView">
+          <span class="nav-icon">Search</span>
+          <small>Cari</small>
+        </button>
+        <button class="nav-item" data-view="libraryView">
+          <span class="nav-icon">Library</span>
+          <small>Koleksi</small>
+        </button>
+        <button class="nav-item" data-view="profileView">
+          <span class="nav-icon">Profile</span>
+          <small>Profil</small>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "meeoww-music-player",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Full-stack music player berdasarkan desain UI/UX Meeoww.",
+  "scripts": {
+    "dev": "node backend/src/server.js",
+    "start": "node backend/src/server.js",
+    "db:migrate": "node backend/src/migrate.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "pg": "^8.13.1"
+  }
+}
