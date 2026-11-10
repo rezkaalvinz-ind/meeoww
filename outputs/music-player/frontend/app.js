@@ -396,6 +396,16 @@ function authError(form, message) {
   element.textContent = message;
 }
 
+async function readApiResponse(response) {
+  const text = await response.text();
+  if (!text) return { error: `Server tidak mengirim respons (HTTP ${response.status})` };
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { error: `Respons server tidak valid (HTTP ${response.status})` };
+  }
+}
+
 function setLoading(button, isLoading, label) {
   button.disabled = isLoading;
   button.textContent = isLoading ? 'Loading...' : label;
@@ -684,7 +694,7 @@ $('#loginForm').addEventListener('submit', async (event) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    const result = await response.json();
+    const result = await readApiResponse(response);
     if (!response.ok) throw new Error(result.error || 'Login gagal');
 
     localStorage.setItem('meeoww_user', JSON.stringify(result.user));
@@ -717,7 +727,7 @@ $('#signupForm').addEventListener('submit', async (event) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    const result = await response.json();
+    const result = await readApiResponse(response);
     if (!response.ok) throw new Error(result.error || 'Pendaftaran gagal');
 
     localStorage.setItem('meeoww_user', JSON.stringify(result.user));

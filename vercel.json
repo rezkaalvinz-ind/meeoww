@@ -1,8 +1,10 @@
 {
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/outputs/music-player/frontend/index.html"
-    }
+    { "source": "/assets/:path*", "destination": "/outputs/music-player/assets/:path*" },
+    { "source": "/covers/:path*", "destination": "/outputs/music-player/frontend/covers/:path*" },
+    { "source": "/media/:path*", "destination": "/outputs/music-player/assets/audio/:path*" },
+    { "source": "/styles.css", "destination": "/outputs/music-player/frontend/styles.css" },
+    { "source": "/app.js", "destination": "/outputs/music-player/frontend/app.js" },
+    { "source": "/(.*)", "destination": "/outputs/music-player/frontend/index.html" }
   ]
 }

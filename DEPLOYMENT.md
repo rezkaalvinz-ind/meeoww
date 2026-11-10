@@ -1,98 +1,65 @@
-# Meeoww Music Player - Deployment Guide
+# Meeoww Music Player - Deployment ke Vercel + Neon
 
-## Deploy ke Vercel
+Project ini sekarang memakai Vercel untuk frontend dan Serverless API, serta Neon PostgreSQL untuk data akun dan lagu.
 
-### Opsi 1: Via Vercel Dashboard (Recommended)
+## 1. Pengaturan Project Vercel
 
-1. Login ke [Vercel](https://vercel.com)
-2. Klik "Add New Project"
-3. Import repository: `rezkaalvinz-ind/meeoww`
-4. **Build Settings**:
-   - Framework Preset: `Other`
-   - Root Directory: `outputs/music-player/frontend`
-   - Build Command: (leave empty)
-   - Output Directory: `.` (dot)
-   - Install Command: (leave empty)
-5. Klik "Deploy"
+Di Vercel Dashboard → Project → Settings → General:
 
-### Opsi 2: Via Vercel CLI
+- **Root Directory**: kosongkan atau gunakan root repository `meeoww`
+- **Framework Preset**: Other
+- **Build Command**: kosong
+- **Output Directory**: kosong
+- **Install Command**: `npm install`
 
-```bash
-npm install -g vercel
-cd "d:\hasil desain\meeoww(manus)"
-vercel
+Jangan gunakan `outputs/music-player/frontend` sebagai Root Directory karena folder tersebut hanya berisi frontend dan tidak membawa folder `api`.
+
+## 2. Environment Variable Neon
+
+Di Vercel Dashboard → Settings → Environment Variables, tambahkan:
+
+```text
+Name: DATABASE_URL
+Value: connection string Neon kamu
+Environments: Production, Preview, Development
 ```
 
-### Opsi 3: Struktur Alternatif (Jika Opsi 1 Gagal)
+Jangan menaruh connection string langsung di source code atau melakukan commit file `.env`.
 
-Jika deployment gagal karena struktur folder, gunakan `vercel.json` yang sudah dibuat:
+## 3. Database
 
-```json
-{
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/outputs/music-player/frontend/index.html"
-    }
-  ]
-}
+Schema dan seed lagu sudah dijalankan ke Neon. Jika perlu mengulang migrasi dari komputer lokal:
+
+```powershell
+npm.cmd --prefix outputs/music-player run db:migrate
 ```
 
-## Troubleshooting
+## 4. Deploy
 
-### Error: "No index.html found"
-**Solusi**: Set Root Directory ke `outputs/music-player/frontend`
+Setelah menyimpan environment variable:
 
-### Error: "404 Not Found"
-**Solusi**: Pastikan vercel.json ada di root repository
+```powershell
+git add .
+git commit -m "Add Vercel Neon API"
+git push origin main
+```
 
-### Error: "Build Failed"
-**Solusi**: Ini adalah static site, tidak perlu build command
+Push ke `main` akan memicu deployment production jika repository sudah terhubung ke Vercel.
 
-### Assets tidak load (CSS/JS/Images)
-**Solusi**: Check path di index.html, pastikan menggunakan relative path
+## 5. Endpoint yang tersedia
 
-## Environment Variables (Optional untuk Backend)
+- `POST /api/auth/register` — membuat akun di tabel `users`
+- `POST /api/auth/login` — login dengan email atau nama tampilan
+- `GET /api/songs` — membaca lagu dari tabel `songs`
+- `GET /api/songs?q=about` — mencari lagu
 
-Jika ingin deploy dengan backend:
+Gambar dan audio contoh disajikan dari file di repository melalui rewrite Vercel (`/assets`, `/covers`, dan `/media`). Daftar lagu contoh tetap tersedia sebagai fallback frontend jika API/database belum siap.
 
-1. Di Vercel Dashboard → Settings → Environment Variables
-2. Tambahkan:
-   - `DATABASE_URL`: Connection string PostgreSQL
-   - `PORT`: 3000
-   - `NODE_ENV`: production
+## 6. Jika masih muncul error
 
-## Backend Deployment (Opsional)
+Buka Vercel → Deployments → deployment terbaru → Functions Logs. Pastikan:
 
-Backend Node.js bisa di-deploy terpisah di:
-- Railway
-- Render
-- Heroku
-- Vercel Serverless Functions
-
-Untuk sekarang, frontend bisa jalan standalone tanpa backend (data hardcoded di app.js).
-
-## Post-Deployment Checklist
-
-- [ ] Homepage load dengan benar
-- [ ] Welcome screen animation berjalan
-- [ ] Login form tampil setelah splash
-- [ ] Navigation bar berfungsi
-- [ ] Audio player controls visible
-- [ ] Responsive di mobile dan desktop
-
-## Custom Domain (Optional)
-
-1. Di Vercel Dashboard → Settings → Domains
-2. Add domain Anda
-3. Update DNS records sesuai instruksi Vercel
-
-## Tips
-
-1. **Preview Deploy**: Setiap push ke branch akan create preview URL
-2. **Production Deploy**: Push ke `main` branch akan update production
-3. **Rollback**: Bisa rollback ke deployment sebelumnya dari dashboard
-
----
-
-**Support**: Jika ada masalah, share error message atau screenshot dari Vercel build logs.
+1. `DATABASE_URL` tersedia di environment yang dipakai deployment.
+2. Root Directory bukan `outputs/music-player/frontend`.
+3. Deployment terbaru sudah menggunakan commit yang berisi folder `api`.
+4. Neon mengizinkan koneksi dari serverless function.

@@ -2,10 +2,16 @@
   "name": "meeoww",
   "version": "1.0.0",
   "private": true,
-  "description": "Meeoww - Mobile Music Streaming Player Prototype",
+  "description": "Meeoww - Mobile Music Streaming Player",
   "scripts": {
     "dev": "npm --prefix outputs/music-player run dev",
     "start": "npm --prefix outputs/music-player start",
     "db:migrate": "npm --prefix outputs/music-player run db:migrate"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
